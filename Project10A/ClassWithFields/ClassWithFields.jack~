@@ -1,0 +1,17 @@
+
+/**
+ * This is a multi-line comment.
+ */
+class ClassWithFields {
+
+	static boolean test;
+
+	static int i, j;
+	static int k;
+	
+	field char c;
+	
+	field boolean b;
+
+	// No functions here, just a single-line comment.
+}

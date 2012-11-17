@@ -1,0 +1,7 @@
+
+/** This is a multi-line comment.
+**/
+class EmptyClass {
+
+	// Nothing to see here, just another single-line comment.
+}

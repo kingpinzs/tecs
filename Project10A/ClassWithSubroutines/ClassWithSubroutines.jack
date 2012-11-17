@@ -1,0 +1,39 @@
+/**
+ * This is a multi-line comment.
+ */
+class ClassWithSubroutines {
+
+	static int i, j;
+	
+	field char c;
+	
+	field boolean b;
+
+	// And this is a single-line comment.
+	
+	constructor ClassWithSubroutines new() {
+	    let i = j;
+	    
+	    return this;  // This is a comment too.
+	}
+	
+	method void hello(int x) {
+	    var int p, q;
+	    
+	    while (b) {
+	        let p = q;
+	    }
+	    
+	    return;
+	}
+	
+	function char world(boolean d, boolean e) {
+	    var char c;
+	    
+	    if (e) {
+	        let b = d;
+	    }
+	    
+	    return c;
+	}
+}
