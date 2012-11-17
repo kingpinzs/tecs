@@ -1,0 +1,420 @@
+function Collidable.new 0
+push constant 5
+call Memory.alloc 1
+pop pointer 0
+push constant 0
+push constant 0
+push constant 5
+push constant 5
+call Rect.new 4
+pop this 0
+push constant 0
+pop this 1
+push constant 0
+pop this 2
+push constant 0
+pop this 3
+push constant 0
+pop this 4
+push pointer 0
+return
+function Collidable.init 0
+push argument 0
+pop pointer 0
+push argument 1
+push argument 2
+push argument 3
+push argument 4
+call Rect.new 4
+pop this 0
+push constant 0
+return
+function Collidable.getRect 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function Collidable.getX 0
+push argument 0
+pop pointer 0
+push this 0
+call Rect.getX 1
+return
+function Collidable.draw 0
+push argument 0
+pop pointer 0
+push this 0
+push this 0
+call Rect.getX 1
+push constant 2
+sub
+call Rect.setX 2
+pop temp 0
+push this 0
+call Rect.getX 1
+push constant 510
+push this 0
+call Rect.getW 1
+sub
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 0
+call Rect.getX 1
+push constant 1
+gt
+push this 1
+not
+and
+push this 4
+not
+and
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+call Rect.getX 1
+push constant 2
+add
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getX 1
+push constant 2
+add
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getH 1
+add
+call Screen.drawLine 4
+pop temp 0
+push this 0
+call Rect.getX 1
+push constant 2
+add
+push this 0
+call Rect.getW 1
+add
+push this 0
+call Rect.getY 1
+push constant 4
+sub
+push this 0
+call Rect.getX 1
+push constant 2
+add
+push this 0
+call Rect.getW 1
+add
+push this 0
+call Rect.getY 1
+push constant 4
+add
+push this 0
+call Rect.getH 1
+add
+call Screen.drawLine 4
+pop temp 0
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getW 1
+add
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getW 1
+add
+push constant 2
+add
+push this 0
+call Rect.getY 1
+call Screen.drawLine 4
+pop temp 0
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getW 1
+add
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getH 1
+add
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getW 1
+add
+push constant 2
+add
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getH 1
+add
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getW 1
+add
+push this 0
+call Rect.getY 1
+call Screen.drawLine 4
+pop temp 0
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getW 1
+add
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getW 1
+add
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getH 1
+add
+call Screen.drawLine 4
+pop temp 0
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getH 1
+add
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getW 1
+add
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getH 1
+add
+call Screen.drawLine 4
+pop temp 0
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getH 1
+add
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+not
+pop this 3
+goto IF_END1
+label IF_FALSE1
+push constant 0
+pop this 3
+push constant 0
+not
+pop this 2
+push pointer 0
+call Collidable.remove 1
+pop temp 0
+label IF_END1
+label IF_FALSE0
+push constant 0
+return
+function Collidable.remove 0
+push argument 0
+pop pointer 0
+push this 0
+call Rect.getX 1
+push constant 1
+neg
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+call Rect.getX 1
+push constant 2
+add
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getX 1
+push constant 2
+add
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getH 1
+add
+call Screen.drawLine 4
+pop temp 0
+push this 0
+call Rect.getX 1
+push constant 2
+add
+push this 0
+call Rect.getW 1
+add
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getX 1
+push constant 2
+add
+push this 0
+call Rect.getW 1
+add
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getH 1
+add
+call Screen.drawLine 4
+pop temp 0
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getW 1
+add
+push this 0
+call Rect.getY 1
+call Screen.drawLine 4
+pop temp 0
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getW 1
+add
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getW 1
+add
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getH 1
+add
+call Screen.drawLine 4
+pop temp 0
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getH 1
+add
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getW 1
+add
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getH 1
+add
+call Screen.drawLine 4
+pop temp 0
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getH 1
+add
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
+push constant 500
+neg
+call Rect.setX 2
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Collidable.hasCollided 0
+push argument 0
+pop pointer 0
+push this 1
+return
+function Collidable.setCollided 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 1
+push constant 0
+return
+function Collidable.hasPassed 0
+push argument 0
+pop pointer 0
+push this 2
+return
+function Collidable.getOnScreen 0
+push argument 0
+pop pointer 0
+push this 3
+return
+function Collidable.setOnScreen 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 3
+push constant 0
+return
+function Collidable.getHitObstruction 0
+push argument 0
+pop pointer 0
+push this 4
+return
+function Collidable.setHitObstruction 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 4
+push constant 0
+return

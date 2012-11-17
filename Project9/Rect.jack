@@ -1,0 +1,43 @@
+//John Ness
+
+//This class allows a basic rectangle object to be created.
+class Rect {
+
+	field int x, y, w, h;
+	
+	//Create a new rectangle
+	constructor Rect new(int X, int Y, int W, int H) {
+		let x = X;
+		let y = Y;
+		let w = W;
+		let h = H;
+	
+		return this;
+	}
+	
+	method int getX() {
+		return x;
+	}
+	
+	method int getY() {
+		return y;
+	}
+	
+	method void setX(int newX) {
+		let x = newX;
+		return;
+	}
+	
+	method void setY(int newY) {
+		let y = newY;
+		return;
+	}
+	
+	method int getW() {
+		return w;
+	}
+	
+	method int getH() {
+		return h;
+	}
+}

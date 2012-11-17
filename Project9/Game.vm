@@ -1,0 +1,122 @@
+function Game.new 0
+push constant 2
+call Memory.alloc 1
+pop pointer 0
+push constant 0
+pop this 0
+push constant 0
+pop this 1
+push pointer 0
+return
+function Game.isOver 0
+push argument 0
+pop pointer 0
+call Player.getHealth 0
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+pop this 0
+label IF_FALSE0
+push this 0
+return
+function Game.setGameOver 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 0
+push constant 0
+return
+function Game.collision 8
+push argument 0
+pop pointer 0
+push argument 1
+call Rect.getX 1
+pop local 0
+push argument 1
+call Rect.getX 1
+push argument 1
+call Rect.getW 1
+add
+pop local 2
+push argument 1
+call Rect.getY 1
+pop local 4
+push argument 1
+call Rect.getY 1
+push argument 1
+call Rect.getH 1
+add
+pop local 6
+push argument 2
+call Rect.getX 1
+pop local 1
+push argument 2
+call Rect.getX 1
+push argument 2
+call Rect.getH 1
+add
+pop local 3
+push argument 2
+call Rect.getY 1
+pop local 5
+push argument 2
+call Rect.getY 1
+push argument 2
+call Rect.getH 1
+add
+pop local 7
+push local 6
+push local 5
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+label IF_FALSE0
+push local 4
+push local 7
+gt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+return
+label IF_FALSE1
+push local 2
+push local 1
+lt
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+return
+label IF_FALSE2
+push local 0
+push local 3
+gt
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 0
+return
+label IF_FALSE3
+push constant 0
+not
+return
+function Game.getGameState 0
+push argument 0
+pop pointer 0
+push this 1
+return
+function Game.setGameState 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 1
+push constant 0
+return

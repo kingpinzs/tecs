@@ -1,0 +1,72 @@
+//John Ness
+
+//This class allows a bullet too be created that can be fired and
+//that contains a rectangle field to be used for collision detection.
+class Bullet {
+
+	field Rect rect;
+	field boolean fired;
+		
+	constructor Bullet new() {
+		let rect = Rect.new(0, 0, 4, 4);
+		let fired = false;
+		
+		return this;
+	}
+	
+	method void shoot() {
+		let fired = true;
+		
+		return;
+	}
+	
+	method boolean isFired() {
+		return fired;
+	}
+	
+	method int getX() {
+		return rect.getX();
+	}
+	
+	method int getY() {
+		return rect.getY();
+	}
+	
+	method void update(Game game, Player player, Collidable collidable) {
+
+		
+		if(fired) {
+			//Erase bullet trail.
+			do Screen.setColor(false);
+			do Screen.drawRectangle(rect.getX()-1, rect.getY(), rect.getX(), rect.getY()+rect.getH());
+			do Screen.setColor(true);
+		
+			do rect.setX(rect.getX() + 1);
+			do Screen.drawRectangle(rect.getX(), rect.getY(), rect.getX()+rect.getW(), rect.getY()+rect.getH());
+			
+			if(rect.getX() > 504) {
+				let fired = false;
+				do Screen.setColor(false);
+				do Screen.drawRectangle(rect.getX(), rect.getY(), rect.getX()+rect.getW(), rect.getY()+rect.getH());
+				do Screen.setColor(true);
+			}
+			
+			
+			if(game.collision(rect, collidable.getRect())) {
+				do collidable.setCollided(true);
+				do Screen.setColor(false);
+				do Screen.drawRectangle(rect.getX(), rect.getY(), rect.getX()+rect.getW(), rect.getY()+rect.getH());
+				do Screen.setColor(true);
+				let fired = false;
+			}
+				
+
+		} else {
+			
+			do rect.setX(player.getX());
+			do rect.setY(player.getY());
+		}
+		
+		return;
+	}
+}

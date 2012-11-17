@@ -1,0 +1,305 @@
+//John Ness
+
+class Main {
+
+	static Game game;
+	static Player player;
+	static Array bullets;
+	static Array collidables;
+	static Collidable currentCol;
+
+	function void main() {
+		var int titleCursorX, eraseCursor, cursorState, frame, score, bulletIndex, currentBullet, collidableIndex;
+		var char key;
+		var Bullet bulletIsFired;		
+		var String scoreStr, healthStr, title, inst1, inst2, inst3, inst4, empty;
+		
+		let empty = " ";
+		
+		let scoreStr = "Score: ";
+		let healthStr = "Health: ";
+		
+		let title = "CIS 384 - Project 9 ";
+		let titleCursorX = 44;
+		let eraseCursor = 18;
+		let cursorState = 0;
+		
+		let inst1 = "Instructions:";
+		let inst2 = "Press the arrow keys to move";
+		let inst3 = "Press SPACE to shoot";
+		let inst4 = "To begin, press ENTER";
+		
+		//Create Game object
+		let game = Game.new();
+		
+		//Create Player object
+		let player = Player.new();
+		do Player.setScore(0);
+		do Player.setHealth(100);
+		
+		//Create bullet objects
+		let bullets = Array.new(4);
+		let bulletIndex = 0;
+		let currentBullet = 0;
+		let bulletIsFired = false;
+		while(bulletIndex < 4) {
+			let bullets[bulletIndex] = Bullet.new();
+			
+			let bulletIndex = bulletIndex + 1;
+		}
+		
+		//Create collidable objects
+		let collidables = Array.new(14);
+		let collidableIndex = 0;
+		while(collidableIndex < 14) {
+			let collidables[collidableIndex] = Collidable.new();
+			
+			let collidableIndex = collidableIndex + 1;
+		}
+		do Main.setupCollidables();
+		
+		let frame = 0;
+		
+		//Game loop
+		while(~game.isOver()) {
+		
+			let key = Keyboard.keyPressed();
+			
+			if(game.getGameState() = 0) {
+				
+				do Output.moveCursor(0, titleCursorX);
+				do Output.printString(title);
+				
+				if(cursorState = 0) {
+					if(titleCursorX > 0) {
+						do Output.backSpace();
+						let titleCursorX = titleCursorX - 1;
+					} else {
+						let cursorState = 1;
+					}
+				} else {
+					if(cursorState = 1) {
+						if(titleCursorX < 44) {
+							
+							if(titleCursorX > 0) {
+								do Output.moveCursor(0, titleCursorX - 1);
+								do Output.printString(empty);
+							}
+							
+							let titleCursorX = titleCursorX + 1;
+						} else {
+							let cursorState = 0;
+						}
+					}
+				}
+				
+				
+				if(eraseCursor > 0) {
+					do Output.moveCursor(0, titleCursorX + eraseCursor);
+					do Output.backSpace();
+					let eraseCursor = eraseCursor - 1;
+				} else {
+					let eraseCursor = 18;
+				}
+				
+				
+				do Output.moveCursor(5, 24);
+				do Output.printString(inst1);
+				do Output.moveCursor(9, 18);
+				do Output.printString(inst2);
+				do Output.moveCursor(11, 22);
+				do Output.printString(inst3);
+				do Output.moveCursor(17, 21);
+				do Output.printString(inst4);
+				
+				if(key = 128) {
+					do Screen.clearScreen();
+					do game.setGameState(1);
+				}
+				
+				//Delay the loop to slow it down a bit...
+				//let frame = frame + 1;
+				//if(frame > 15) {
+					do Sys.wait(50);
+				//	let frame = 0;
+				//}
+				
+			} else {
+			
+				//Control the player
+				if(key = 132) { //right arrow
+					do player.move(1);
+				} else {
+					if(key = 130) {	//left arrow
+						do player.move(2);
+					
+					} else {
+						if(key = 133) { //down arrow
+							do player.move(3);
+							
+						} else {
+							if(key = 131) { //up arrow
+								do player.move(4);
+							
+							} else {
+								do player.move(0);
+							}
+						}
+					}
+				}
+				
+				//Shoot bullets			
+				if(key = 32) { //space-bar
+					let bulletIsFired = bullets[currentBullet];
+					
+					if(~bulletIsFired.isFired()) {
+						do bulletIsFired.shoot();
+					}
+					
+					let bullets[currentBullet] = bulletIsFired;
+					
+					if(bulletIsFired.getX() > 155) {
+						let currentBullet = currentBullet + 1;
+					}
+					if(currentBullet > 3) {
+						let currentBullet = 0;
+					}
+				}
+				
+				//Draw score
+				do Output.moveCursor(0, 0);
+				do Output.printString(scoreStr);
+				do Output.printInt(Player.getScore());
+				
+				//Draw health
+				do Output.moveCursor(22, 0);
+				do Output.printString(healthStr);
+				do Output.printInt(Player.getHealth());
+			
+				//Draw and update the player.
+				do player.draw();
+				do player.update();
+				
+				//Update bullets
+				let bulletIndex = 0;
+				while(bulletIndex < 4) {
+					let bulletIsFired = bullets[bulletIndex];
+					
+					let collidableIndex = 0;
+					while(collidableIndex < 14) {
+						let currentCol = collidables[collidableIndex];
+						do bulletIsFired.update(game, player, currentCol);
+						if(currentCol.hasCollided() & currentCol.getOnScreen()) {
+							do Player.setScore(Player.getScore() + 1);
+							do currentCol.setOnScreen(false);
+						}
+						let collidableIndex = collidableIndex + 1;
+					}
+					
+					let bullets[bulletIndex] = bulletIsFired;
+					let bulletIndex = bulletIndex + 1;
+				}
+				
+				let collidableIndex = 0;
+				while(collidableIndex < 14) {
+					let currentCol = collidables[collidableIndex];
+					do currentCol.setHitObstruction(game.collision(player.getRect(), currentCol.getRect()));
+					if(currentCol.getHitObstruction()) {
+						do Player.setHealth(Player.getHealth() - 10);
+						do Output.backSpace();
+					}
+					if(~currentCol.hasPassed() | ~currentCol.hasCollided() | ~currentCol.getHitObstruction()) {
+						do currentCol.draw();
+					}
+					
+					//End the game if the final collidable has been deleted
+					if(collidableIndex = 13) {
+						if(currentCol.getHitObstruction() | currentCol.hasCollided()) {
+							do game.setGameOver(true);
+						}
+					}
+					
+					let collidableIndex = collidableIndex + 1;
+				}
+				
+				//Delay the loop to slow it down a bit...
+				let frame = frame + 1;
+				if(frame > 30) {
+					do Sys.wait(90);
+					let frame = 0;
+				}
+			}
+			
+		}
+		
+		do Screen.clearScreen();
+		
+		do Output.moveCursor(10, 24);
+		do Output.printString("Game Over");
+		do Output.moveCursor(11, 22);
+		do Output.printString("Final score: ");
+		do Output.printInt(Player.getScore());
+		
+		return;
+	}
+	
+	function void setupCollidables() {
+		let currentCol = collidables[0];
+		do currentCol.init(512, 32, 32, 32);
+		let collidables[0] = currentCol;
+		
+		let currentCol = collidables[1];
+		do currentCol.init(620, 100, 24, 24);
+		let collidables[1] = currentCol;
+		
+		let currentCol = collidables[2];
+		do currentCol.init(590, 160, 24, 24);
+		let collidables[2] = currentCol;
+		
+		let currentCol = collidables[3];
+		do currentCol.init(698, 16, 32, 32);
+		let collidables[3] = currentCol;
+		
+		let currentCol = collidables[4];
+		do currentCol.init(749, 200, 16, 40);
+		let collidables[4] = currentCol;
+		
+		let currentCol = collidables[5];
+		do currentCol.init(800, 112, 32, 24);
+		let collidables[5] = currentCol;
+		
+		let currentCol = collidables[6];
+		do currentCol.init(862, 24, 64, 64);
+		let collidables[6] = currentCol;
+		
+		let currentCol = collidables[7];
+		do currentCol.init(910, 100, 64, 64);
+		let collidables[7] = currentCol;
+				
+		let currentCol = collidables[8];
+		do currentCol.init(1000, 200, 16, 16);
+		let collidables[8] = currentCol;
+		
+		let currentCol = collidables[9];
+		do currentCol.init(1500, 116, 32, 32);
+		let collidables[9] = currentCol;
+		
+		let currentCol = collidables[10];
+		do currentCol.init(1650, 75, 32, 12);
+		let collidables[10] = currentCol;
+		
+		let currentCol = collidables[11];
+		do currentCol.init(1670, 125, 32, 12);
+		let collidables[11] = currentCol;
+		
+		let currentCol = collidables[12];
+		do currentCol.init(1685, 175, 32, 12);
+		let collidables[12] = currentCol;		
+		
+		let currentCol = collidables[13];
+		do currentCol.init(1800, 16, 64, 234);
+		let collidables[13] = currentCol;
+		
+		return;
+	}
+}

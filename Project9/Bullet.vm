@@ -1,0 +1,178 @@
+function Bullet.new 0
+push constant 2
+call Memory.alloc 1
+pop pointer 0
+push constant 0
+push constant 0
+push constant 4
+push constant 4
+call Rect.new 4
+pop this 0
+push constant 0
+pop this 1
+push pointer 0
+return
+function Bullet.shoot 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+pop this 1
+push constant 0
+return
+function Bullet.isFired 0
+push argument 0
+pop pointer 0
+push this 1
+return
+function Bullet.getX 0
+push argument 0
+pop pointer 0
+push this 0
+call Rect.getX 1
+return
+function Bullet.getY 0
+push argument 0
+pop pointer 0
+push this 0
+call Rect.getY 1
+return
+function Bullet.update 0
+push argument 0
+pop pointer 0
+push this 1
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+call Rect.getX 1
+push constant 1
+sub
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getH 1
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
+push this 0
+call Rect.getX 1
+push constant 1
+add
+call Rect.setX 2
+pop temp 0
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getW 1
+add
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getH 1
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+call Rect.getX 1
+push constant 504
+gt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+pop this 1
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getW 1
+add
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getH 1
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+label IF_FALSE1
+push argument 1
+push this 0
+push argument 3
+call Collidable.getRect 1
+call Game.collision 3
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push argument 3
+push constant 0
+not
+call Collidable.setCollided 2
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getX 1
+push this 0
+call Rect.getW 1
+add
+push this 0
+call Rect.getY 1
+push this 0
+call Rect.getH 1
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 0
+pop this 1
+label IF_FALSE2
+goto IF_END0
+label IF_FALSE0
+push this 0
+push argument 2
+call Player.getX 1
+call Rect.setX 2
+pop temp 0
+push this 0
+push argument 2
+call Player.getY 1
+call Rect.setY 2
+pop temp 0
+label IF_END0
+push constant 0
+return

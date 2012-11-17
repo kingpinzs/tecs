@@ -1,0 +1,74 @@
+//John Ness
+
+//This class allows a for a game to be created and can provide simple
+//functionality that would be useful for a game.
+class Game {
+
+	field boolean gameOver;
+	field int gameState;
+
+	//Creates a new Game object.
+	constructor Game new() {
+		let gameOver = false;
+		let gameState = 0;
+		
+		return this;
+	}
+	
+	method boolean isOver() {
+		
+		if(Player.getHealth() = 0) {
+			let gameOver = true;
+		}
+		
+		return gameOver;
+	}
+	
+	method void setGameOver(boolean isOver) {
+		let gameOver = isOver;
+		return;
+	}
+	
+	//Detect collision between two objects.
+	method boolean collision(Rect a, Rect b) {
+		var int leftA, leftB, rightA, rightB, topA, topB, bottomA, bottomB;
+		
+		//Calculate the sides of rect A
+		let leftA = a.getX();
+		let rightA = a.getX() + a.getW();
+		let topA = a.getY();
+		let bottomA = a.getY() + a.getH();
+
+		//Calculate the sides of rect B
+		let leftB = b.getX();
+		let rightB = b.getX() + b.getH();
+		let topB = b.getY();
+		let bottomB = b.getY() + b.getH();
+		
+		//If any of the sides from A are outside of B
+		if( bottomA < topB ){
+			return false;
+		}
+		if( topA > bottomB ){
+			return false;
+		}
+		if( rightA < leftB ){
+			return false;
+		}
+		if( leftA > rightB ){
+			return false;
+		}
+		
+		return true;
+	}
+	
+	method int getGameState() {
+		return gameState;
+	}
+	
+	method void setGameState(int newGameState) {
+		let gameState = newGameState;
+		return;
+	}
+
+}

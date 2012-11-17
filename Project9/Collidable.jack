@@ -1,0 +1,132 @@
+//John Ness
+
+//This class allows for a basic collidable object to be created. Currently
+//it draws rectangles that move across the screen. It contains a rectangle
+//field to be used for collision detection.
+class Collidable {
+
+	field Rect rect;
+	field boolean collided;
+	field boolean passed;
+	field boolean onScreen;
+	field boolean hitObstruction;
+	
+	//Create the collidable object
+	constructor Collidable new() {
+		let rect = Rect.new(0, 0, 5, 5);
+		let collided = false;
+		let passed = false;
+		let onScreen = false;
+		let hitObstruction = false;
+		return this;
+	}
+	
+	//Initialize the object
+	method void init(int X, int Y, int W, int H) {
+		let rect = Rect.new(X, Y, W, H);
+		return;
+	}
+	
+	method Rect getRect() {
+		return rect;
+	}
+	
+	method int getX() {
+		return rect.getX();
+	}
+	
+	//Draw the object
+	method void draw() {
+	
+		do rect.setX(rect.getX() - 2);
+	
+		if(rect.getX() < (510 - rect.getW())) {
+			if(rect.getX() > 1 & ~collided & ~hitObstruction) {
+				//Erase trails
+				do Screen.setColor(false);
+				//Left face
+				do Screen.drawLine(rect.getX() + 2, rect.getY(), rect.getX() + 2, rect.getY() + rect.getH());
+				//Right face
+				do Screen.drawLine((rect.getX()+2) + rect.getW(), rect.getY()-4, (rect.getX() + 2) + rect.getW(), rect.getY()+4 + rect.getH());
+				//Top face
+				do Screen.drawLine(rect.getX()+ rect.getW(), rect.getY(), (rect.getX() + rect.getW()) + 2, rect.getY());
+				//Bottom face
+				//Top face
+				do Screen.drawLine(rect.getX()+ rect.getW(), rect.getY() + rect.getH(), (rect.getX() + rect.getW()) + 2, rect.getY() + rect.getH());
+				do Screen.setColor(true);
+			
+				//Draw object when compeletely on the screen.
+				//Top face
+				do Screen.drawLine(rect.getX(), rect.getY(), rect.getX() + rect.getW(), rect.getY());
+				//Right face
+				do Screen.drawLine(rect.getX() + rect.getW(), rect.getY(), rect.getX() + rect.getW(), rect.getY() + rect.getH());
+				//Bottom face
+				do Screen.drawLine(rect.getX(), rect.getY() + rect.getH(), rect.getX() + rect.getW(), rect.getY() + rect.getH());
+				//Left face
+				do Screen.drawLine(rect.getX(), rect.getY(), rect.getX(), rect.getY() + rect.getH());
+				
+				let onScreen = true;
+			} else {
+				let onScreen = false;
+				let passed = true;
+				do remove();
+			}
+		}
+		
+		return;
+	}
+	
+	method void remove() {
+		if(rect.getX() > -1) {
+			//Erase from screen
+			do Screen.setColor(false);
+			//Left face trail
+			do Screen.drawLine(rect.getX() + 2, rect.getY(), rect.getX() + 2, rect.getY() + rect.getH());
+			//Right face trail
+			do Screen.drawLine((rect.getX()+2) + rect.getW(), rect.getY(), (rect.getX() + 2) + rect.getW(), rect.getY() + rect.getH());
+			
+			//Top face
+			do Screen.drawLine(rect.getX(), rect.getY(), rect.getX() + rect.getW(), rect.getY());
+			//Right face
+			do Screen.drawLine(rect.getX() + rect.getW(), rect.getY(), rect.getX() + rect.getW(), rect.getY() + rect.getH());
+			//Bottom face
+			do Screen.drawLine(rect.getX(), rect.getY() + rect.getH(), rect.getX() + rect.getW(), rect.getY() + rect.getH());
+			//Left face
+			do Screen.drawLine(rect.getX(), rect.getY(), rect.getX(), rect.getY() + rect.getH());
+			do Screen.setColor(true);
+			do rect.setX(-500);
+		}
+		return;
+	}
+	
+	method boolean hasCollided() {
+		return collided;
+	}
+	
+	method void setCollided(boolean collide) {
+		let collided = collide;
+		return;
+	}
+	
+	method boolean hasPassed() {
+		return passed;
+	}
+	
+	method boolean getOnScreen() {
+		return onScreen;
+	}
+	
+	method void setOnScreen(boolean newOnScreen) {
+		let onScreen = newOnScreen;
+		return;
+	}
+	
+	method boolean getHitObstruction() {
+		return hitObstruction;
+	}
+	
+	method void setHitObstruction(boolean hit) {
+		let hitObstruction = hit;
+		return;
+	}
+}

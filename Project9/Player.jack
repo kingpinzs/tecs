@@ -1,0 +1,237 @@
+//John Ness
+
+//This class allows a player to be created and manipulated with various
+//fields and functionality. Contains a rectangle field to be used for
+//collision detection.
+class Player {
+
+	//Holds the rectangle of the player.
+	field Rect rect;
+	field int x, y, dir;
+	static int score, health;
+	
+	//Creates a new player object.
+	constructor Player new() {
+		let x = 64;
+		let y = 128;
+		
+		let rect = Rect.new(x - 22, y - 4, 16, 16);
+		
+		return this;
+	}
+	
+	//Moves the player based on a direction.
+	method void move(int direction) {
+		let dir = direction;
+		
+		if(direction = 1) {
+			if(x < 150) {
+				let x = x + 2;
+			}
+			
+		} else {
+			if(direction = 2) {
+				if(x > 22) {
+					let x = x - 2;
+				}
+			} else {
+				if(direction = 3) {
+					if(y < 235) {
+						let y = y  + 2;
+					}
+				} else {
+					if(direction = 4) {
+						if(y > 8) {
+							let y = y - 2;
+						}
+					}
+				}
+			}
+		}
+		
+		
+		return;
+	}
+	
+	//Draws the player.
+	method void draw() {
+		var int tempX, tempY;
+		
+		//Draw base of player.
+		let tempX = x - 20; //(x - 4) - 16
+		let tempY = y - 4;
+		do Screen.drawRectangle(tempX, tempY, tempX + 16, tempY + 16);
+		
+		//Draw front of player.
+		do Screen.drawRectangle(x - 3, y, x, y + 7);
+		
+		//Draw back of player.		
+		//Top
+		let tempX = tempX - 2;
+		let tempY = tempY - 2;
+		do Screen.drawRectangle(tempX, tempY, tempX + 4, tempY + 4);
+		
+		//Bottom
+		let tempY = tempY + 16;
+		do Screen.drawRectangle(tempX, tempY, tempX + 4, tempY + 4);
+		
+		return;
+	}
+	
+	//Returns the player's x coordinate.
+	method int getRectX() {
+		return rect.getX();
+	}
+	
+	//Returns the player's y coordinate.
+	method int getRectY() {
+		return rect.getY();
+	}
+	
+	//Returns the player's rectangle.
+	method Rect getRect() {
+		return rect;
+	}
+	
+	method int getX() {
+		return x;
+	}
+	
+	method it getY() {
+		return y;
+	}
+	
+	//Updates player fields.
+	method void update() {
+		var int tempX, tempY;
+		
+		//Moving right
+		if(dir = 1) {
+			do Screen.setColor(false);
+			
+			//Erase trail from body of player.
+			let tempX = x - 20; //(x - 4) - 16
+			let tempY = y-1;
+			do Screen.drawRectangle(tempX - 2, tempY, tempX, tempY + 10);
+			
+			//Erase trail from back of player.
+			//Top
+			let tempX = tempX - 2;
+			let tempY = tempY - 5;
+			do Screen.drawRectangle(tempX - 2, tempY, tempX, tempY + 5);
+			
+			//Bottom
+			let tempY = tempY + 15;
+			do Screen.drawRectangle(tempX - 2, tempY, tempX, tempY + 5);
+			
+			do Screen.setColor(true);
+		
+		//Moving left
+		} else {
+			if(dir = 2) {
+				do Screen.setColor(false);
+				
+				//Erase trail from nose of player.
+				do Screen.drawRectangle(x, y, x+2, y+7);
+				
+				//Erase trail from body of player.
+				//Top
+				do Screen.drawRectangle(x - 3, y - 4, x + 2, y);
+				//Bottom
+				do Screen.drawRectangle(x - 3, y + 7, x + 2, y + 12);
+				
+				//Erase trail from back of player.
+				//Top
+				let tempX = x - 17;
+				let tempY = y - 6;
+				do Screen.drawRectangle(tempX, tempY, tempX + 2, tempY + 2);
+				
+				//Bottom
+				let tempY = tempY + 18;
+				do Screen.drawRectangle(tempX, tempY, tempX + 2, tempY + 2);
+				
+				do Screen.setColor(true);
+			
+			//Moving down
+			} else {
+				if(dir = 3) {
+					do Screen.setColor(false);
+					
+					//Erase trail from nose of player.
+					do Screen.drawRectangle(x - 3, y - 2, x, y);
+					
+					//Erase trail from body of player.
+					let tempX = x - 17;
+					let tempY = y - 4;
+					do Screen.drawRectangle(tempX, tempY - 2, tempX + 14, tempY);
+					
+					//Erase trail from back of player.
+					//Top
+					let tempX = tempX - 5;
+					let tempY = tempY - 3;
+					do Screen.drawRectangle(tempX, tempY - 2, tempX + 4, tempY);
+					
+					//Bottom
+					let tempY = tempY + 16;
+					do Screen.drawRectangle(tempX, tempY - 2, tempX + 2, tempY);
+					
+					do Screen.setColor(true);
+				
+				//Moving up
+				} else {
+					if(dir = 4) {
+						do Screen.setColor(false);
+						
+						//Erase trail from nose of player.
+						do Screen.drawRectangle(x - 3, y + 7, x, y + 9);
+						
+						//Erase trail from body of player.
+						let tempX = x - 17;
+						let tempY = y + 13;
+						do Screen.drawRectangle(tempX, tempY, tempX + 14, tempY + 2);						
+						
+						//Erase trail from body of player.
+						let tempX = x - 17;
+						let tempY = y - 4;
+						do Screen.drawRectangle(tempX, tempY - 2, tempX + 14, tempY);
+						
+						//Erase trail from back of player.
+						//Top
+						let tempX = tempX - 5;
+						let tempY = tempY + 3;
+						do Screen.drawRectangle(tempX, tempY, tempX + 2, tempY + 2);
+						
+						//Bottom
+						let tempY = tempY + 16;
+						do Screen.drawRectangle(tempX, tempY, tempX + 4, tempY + 2);
+						
+						do Screen.setColor(true);
+					}
+				}
+			}
+		}
+		
+		do rect.setX(x - 20);
+		do rect.setY(y - 4);
+		
+		return;
+	}
+	
+	function int getScore() {
+		return score;
+	}
+	
+	function void setScore(int newScore) {
+		let score = newScore;
+		return;
+	}
+	
+	function int getHealth() {
+		return health;
+	}
+	
+	function void setHealth(int newHealth) {
+		let health = newHealth;
+		return;
+	}
+}
